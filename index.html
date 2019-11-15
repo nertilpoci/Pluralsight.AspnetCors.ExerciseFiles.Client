@@ -38,6 +38,7 @@
         <div class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" onclick="loadProducts()">Search</button>
+            <button class="btn btn-outline-success my-2 my-sm-0" onclick="loadProducts(true)">Search(Include Credentials)</button>
         </div>
     </nav>
 
@@ -48,6 +49,7 @@
             <div class="card-body">
                 <h5 class="card-title">No Products Loaded </h5>
                 <a href="javascript:;" onclick="loadProducts()" class="btn btn-primary">Load Products</a>
+                <a href="javascript:;" onclick="loadProducts(true)" class="btn btn-primary">Load Products(Include Credentials)</a>
             </div>
 
         </div>
@@ -56,13 +58,10 @@
 
 
     <script>
-        async function loadProducts() {
+        async function loadProducts(includeCredentials=false) {
             const response = await fetch('http://localhost:5000/api/products',{
                 method:'GET',
-                 credentials: 'include', // include, *same-origin, omit
-//                 headers: new Headers({
-//      'Authorization': 'Basic mytokenvalue'
-//    }), 
+                credentials: includeCredentials? 'include':'same-origin', // include, *same-origin, omit 
             });
             const myJson = await response.json();
             createListWithInnerHTML(myJson)
