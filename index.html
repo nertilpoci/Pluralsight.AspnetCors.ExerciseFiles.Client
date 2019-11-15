@@ -48,6 +48,7 @@
             <div class="card-body">
                 <h5 class="card-title">No Products Loaded </h5>
                 <a href="#" onclick="loadProducts()" class="btn btn-primary">Load Products</a>
+                <a href="#" onclick="loadProducts(true)" class="btn btn-primary">Load Products(Preflight)</a>
             </div>
 
         </div>
@@ -56,8 +57,12 @@
 
 
     <script>
-        async function loadProducts() {
-            const response = await fetch('http://localhost:5000/api/products');
+        async function loadProducts(isPreflight=false) {
+            const response = await fetch('http://localhost:5000/api/products',{
+                headers:{
+                    'Content-Type': isPreflight? 'application/json':'text/plain'
+                }
+            });
             const myJson = await response.json();
             createListWithInnerHTML(myJson)
         }
